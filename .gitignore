@@ -6,4 +6,10 @@ lib/
 *.sqlite3
 pip-selfcheck.json
 
+src/awsbean/settings/local.py
 
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
