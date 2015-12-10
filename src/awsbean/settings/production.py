@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
         'accounts',
+        'storages',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -111,3 +112,38 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+
+
+
+AWS_ACCESS_KEY_ID = "AKIAI6TL5MU7ALAYQNDQ"
+AWS_SECRET_ACCESS_KEY = "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"
+
+
+AWS_FILE_EXPIRE = 200
+AWS_PRELOAD_METADATA = True
+AWS_QUERYSTRING_AUTH = True
+
+DEFAULT_FILE_STORAGE = 'awsbean.utils.MediaRootS3BotoStorage'
+STATICFILES_STORAGE = 'awsbean.utils.StaticRootS3BotoStorage'
+AWS_STORAGE_BUCKET_NAME = 's3django'
+S3DIRECT_REGION = 'us-west-2'
+S3_URL = '//%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
+MEDIA_URL = '//%s.s3.amazonaws.com/media/' % AWS_STORAGE_BUCKET_NAME
+MEDIA_ROOT = MEDIA_URL
+STATIC_URL = S3_URL + 'static/'
+ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
+
+import datetime
+
+date_two_months_later = datetime.date.today() + datetime.timedelta(2 * 365 / 12) 
+expires = date_two_months_later.strftime("%A, %d %B %Y 20:00:00 GMT")
+
+AWS_HEADERS = { 
+    'Expires': expires,
+    'Cache-Control': 'max-age=86400',
+}
+
+
+
